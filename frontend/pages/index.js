@@ -1,35 +1,50 @@
 import HeroBanner from "@/components/HeroBanner";
-import Wrapper from "@/components/Wrapper";
 import ProductCard from "@/components/ProductCard";
-
-export default function Home() {
-    return <main className="">
-        <HeroBanner />
-        <Wrapper>
-            {/* heading and paraghragh start */}
-            <div className="text-center max-w-[800px] mx-auto my-[50px] md:my-[80px]">
-                <div className="text-[28px] md:text-[34px] mb-5 font-semibold leading-tight">
-                    Cushioning your Miles
+import Wrapper from "@/components/Wrapper";
+import { fetchAPI } from "@/utils/api";
+export default function Home({ products }) {
+    return (
+        <main>
+            <HeroBanner />
+            <Wrapper>
+                {/* heading and paragaph start */}
+                <div className="text-center max-w-[800px] mx-auto my-[50px] md:my-[80px]">
+                    <div className="text-[28px] md:text-[34px] mb-5 font-semibold leading-tight">
+                        Cushioning for Your Miles
+                    </div>
+                    <div className="text-md md:text-xl">
+                        A lightweight Nike ZoomX midsole is combined with
+                        increased stack heights to help provide cushioning
+                        during extended stretches of running.
+                    </div>
                 </div>
-                <div className="text-md md:text-xl">
-                    A soft, smooth ride for miles and miles.
+                {/* heading and paragaph end */}
+
+                {/* products grid start */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-14 px-5 md:px-0">
+                    {products?.data?.map((product) => (
+                        <ProductCard key={product?.id} data={product} />
+                    ))}
+                    {/* <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard /> */}
                 </div>
-            </div>
-            {/* heading and paraghragh end */}
+                {/* products grid end */}
+            </Wrapper>
+        </main>
+    );
+}
 
-            {/* product card grid start */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-14 px-5 md:px-0">
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-           
-            </div>
-            {/* product card grid end */}
+export async function getStaticProps() {
+    const products = await fetchAPI("/api/products?populate=*");
 
-        </Wrapper>
-    </main>;
+    return {
+        props: { products },
+    };
 }
