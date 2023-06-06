@@ -34,11 +34,20 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
 
       const session = await stripe.checkout.sessions.create({
         shipping_address_collection: { allowed_countries: ["IN"] },
-        payment_method_types: ["card"],
+        payment_method_types: ["google_pay", "card"],
         mode: "payment",
         success_url: process.env.CLIENT_URL + `/success`,
         cancel_url: process.env.CLIENT_URL + "/failed",
         line_items: lineItems,
+        phone_number_collection: {
+          enabled: true,
+        },
+        invoice_creation: {
+          enabled: true,
+        },
+        invoice_settings: {
+          footer: "Thank you for your purchase.",
+        },
       });
 
       await strapi
