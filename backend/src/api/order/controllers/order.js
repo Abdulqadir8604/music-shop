@@ -39,15 +39,15 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
         success_url: process.env.CLIENT_URL + `/success`,
         cancel_url: process.env.CLIENT_URL + "/failed",
         line_items: lineItems,
-        phone_number_collection: {
-          enabled: true,
-        },
-        invoice_creation: {
-          enabled: true,
-        },
-        invoice_settings: {
-          footer: "Thank you for your purchase.",
-        },
+        // phone_number_collection: {
+        //   enabled: true,
+        // },
+        // invoice_creation: {
+        //   enabled: true,
+        // },
+        // invoice_settings: {
+        //   footer: "Thank you for your purchase.",
+        // },
       });
 
       await strapi
