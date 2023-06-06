@@ -36,7 +36,7 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
         shipping_address_collection: { allowed_countries: ["IN"] },
         payment_method_types: ["google_pay", "card"],
         mode: "payment",
-        success_url: process.env.CLIENT_URL + `/success`,
+        success_url: `https://melody-shoes-1sa9jwxnl-abdulqadir8604.vercel.app` + `/success`,
         cancel_url: process.env.CLIENT_URL + "/failed",
         line_items: lineItems,
         phone_number_collection: {
