@@ -2,6 +2,7 @@ import HeroBanner from "@/components/HeroBanner";
 import ProductCard from "@/components/ProductCard";
 import Wrapper from "@/components/Wrapper";
 import { fetchAPI } from "@/utils/api";
+
 export default function Home({ products }) {
     return (
         <main>

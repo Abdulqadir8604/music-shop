@@ -3,6 +3,7 @@ import React from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { updateCart, removeFromCart } from "@/store/cartSlice";
 import { useDispatch } from "react-redux";
+
 const CartItem = ({ data }) => {
   const p = data.attributes;
 
@@ -37,11 +38,6 @@ const CartItem = ({ data }) => {
             {p.name}
           </div>
 
-          {/* PRODUCT SUBTITLE */}
-          <div className="text-sm md:text-md font-medium text-black/[0.5] block md:hidden">
-            {p.subtitle}
-          </div>
-
           {/* PRODUCT PRICE */}
           <div className="text-sm md:text-md font-bold text-black/[0.5] mt-2">
             MRP : &#8377;{p.price}
@@ -49,7 +45,7 @@ const CartItem = ({ data }) => {
         </div>
 
         {/* PRODUCT SUBTITLE */}
-        <div className="text-md font-medium text-black/[0.5] hidden md:block">
+        <div className="text-md font-medium text-black/[0.5]">
           {p.subtitle}
         </div>
 
@@ -59,20 +55,18 @@ const CartItem = ({ data }) => {
               <div className="font-semibold">Size:</div>
               <select
                 className="hover:text-black"
+                value={data.selectedSize}
                 onChange={(e) => updateCartItem(e, "selectedSize")}
               >
-                {p.size.data.map((item, i) => {
-                  return (
-                    <option
-                      key={i}
-                      value={item.size}
-                      disabled={!item.enabled ? true : false}
-                      selected={data.selectedSize === item.size}
-                    >
-                      {item.size}
-                    </option>
-                  );
-                })}
+                {p.size.data.map((item, i) => (
+                  <option
+                    key={i}
+                    value={item.size}
+                    disabled={!item.enabled}
+                  >
+                    {item.size}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -80,15 +74,14 @@ const CartItem = ({ data }) => {
               <div className="font-semibold">Quantity:</div>
               <select
                 className="hover:text-black"
+                value={data.quantity}
                 onChange={(e) => updateCartItem(e, "quantity")}
               >
-                {Array.from({ length: 10 }, (_, i) => i + 1).map((q, i) => {
-                  return (
-                    <option key={i} value={q} selected={data.quantity === q}>
-                      {q}
-                    </option>
-                  );
-                })}
+                {Array.from({ length: 10 }, (_, i) => i + 1).map((q, i) => (
+                  <option key={i} value={q}>
+                    {q}
+                  </option>
+                ))}
               </select>
             </div>
           </div>

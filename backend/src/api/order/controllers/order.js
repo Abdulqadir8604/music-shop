@@ -8,16 +8,13 @@ const { createCoreController } = require("@strapi/strapi").factories;
 
 module.exports = createCoreController("api::order.order", ({ strapi }) => ({
   async create(ctx) {
-    const { products } = ctx.request.body;
+    const { products } = ctx.request.body; 
     try {
       const lineItems = await Promise.all(
         products.map(async (product) => {
           const item = await strapi
             .service("api::product.product")
             .findOne(product.id);
-
-          console.log("this is item------->", item);
-          console.log("this is product------->", product);
 
           return {
             price_data: {
@@ -40,12 +37,16 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
         cancel_url: process.env.CLIENT_URL + "/failed",
         line_items: lineItems,
       });
-
-      await strapi
+      
+      const order = await strapi
         .service("api::order.order")
-        .create({ data: { products, stripeId: session.id } });
+        .create({ data: { products, stripeId: session.id} });
 
-      return { stripeSession: session };
+      const orderWithStripeId = {
+        ...order,
+        stripeId: session.id,
+      };
+      return { stripeSession: session, order: orderWithStripeId };
     } catch (error) {
       ctx.response.status = 500;
       return { error };
